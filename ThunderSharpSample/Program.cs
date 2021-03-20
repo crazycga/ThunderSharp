@@ -23,7 +23,7 @@ namespace SampleApp
 			myBorg.SetLEDBatteryMonitor(false, myLog);
 
 			initialSettings.SetCurrentEnvironment(myBorg, myLog);
-
+			
 		}
 
 		private static void TestLEDs(ThunderBorg_class myBorg, Logger_class log)

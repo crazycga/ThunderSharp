@@ -7,6 +7,9 @@ using System.Diagnostics;
 
 namespace ThunderSharpLibrary
 {
+    /// <summary>
+    /// This object contains all of the settings pertinent to the ThunderBorg environment
+    /// </summary>
     public class ThunderBorgSettings_class : INotifyPropertyChanged
     {
         private int _Id = 0;
@@ -34,6 +37,9 @@ namespace ThunderSharpLibrary
             }
         }
 
+        /// <summary>
+        /// ID field, intended to be used in a database environment
+        /// </summary>
         public int Id
         {
             get
@@ -48,6 +54,9 @@ namespace ThunderSharpLibrary
             }
         }
 
+        /// <summary>
+        /// Address of the ThunderBorg board
+        /// </summary>
         public int BoardAddress
         {
             get
@@ -62,6 +71,9 @@ namespace ThunderSharpLibrary
             }
         }
 
+        /// <summary>
+        /// Calculation value set by the constant VOLTAGE_PIN_MAX in the actual code
+        /// </summary>
         public decimal VoltagePinMax
         {
             get
@@ -76,6 +88,9 @@ namespace ThunderSharpLibrary
             }
         }
 
+        /// <summary>
+        /// The minimum voltage used by the LED battery monitor
+        /// </summary>
         public decimal BatteryMonitorMin
         {
             get
@@ -90,6 +105,9 @@ namespace ThunderSharpLibrary
             }
         }
 
+        /// <summary>
+        /// The maximum voltage used by the LED battery monitor
+        /// </summary>
         public decimal BatteryMonitorMax
         {
             get
@@ -104,6 +122,9 @@ namespace ThunderSharpLibrary
             }
         }
 
+        /// <summary>
+        /// LED1 red setting
+        /// </summary>
         public byte LED1_Red
         {
             get
@@ -118,6 +139,9 @@ namespace ThunderSharpLibrary
             }
         }
 
+        /// <summary>
+        /// LED1 green setting
+        /// </summary>
         public byte LED1_Green
         {
             get
@@ -132,6 +156,9 @@ namespace ThunderSharpLibrary
             }
         }
 
+        /// <summary>
+        /// LED1 blue setting
+        /// </summary>
         public byte LED1_Blue
         {
             get
@@ -146,6 +173,9 @@ namespace ThunderSharpLibrary
             }
         }
 
+        /// <summary>
+        /// LED2 red setting
+        /// </summary>
         public byte LED2_Red
         {
             get
@@ -160,6 +190,9 @@ namespace ThunderSharpLibrary
             }
         }
 
+        /// <summary>
+        /// LED2 green setting
+        /// </summary>
         public byte LED2_Green
         {
             get
@@ -174,6 +207,9 @@ namespace ThunderSharpLibrary
             }
         }
 
+        /// <summary>
+        /// LED2 blue setting
+        /// </summary>
         public byte LED2_Blue
         {
             get
@@ -188,6 +224,9 @@ namespace ThunderSharpLibrary
             }
         }
 
+        /// <summary>
+        /// The LED battery monitoring state; true - on / false - off
+        /// </summary>
         public bool BatteryMonitoringState
         {
             get
@@ -202,6 +241,9 @@ namespace ThunderSharpLibrary
             }
         }
 
+        /// <summary>
+        /// The failsafe state; true - on / false - off
+        /// </summary>
         public bool FailSafeState
         {
             get
@@ -216,6 +258,9 @@ namespace ThunderSharpLibrary
             }
         }
 
+        /// <summary>
+        /// [Read only] Indicates whether the object has been updated since instantiation
+        /// </summary>
         public bool IsUsed
         {
             get
@@ -224,6 +269,11 @@ namespace ThunderSharpLibrary
             }
         }
 
+        /// <summary>
+        /// Enumerates the [ThunderBorg_class] board passed into it, and records the settings it finds.
+        /// </summary>
+        /// <param name="borg">The _intiialized_ ThunderBorg board to be enumerated</param>
+        /// <param name="logger">[Optional] Logger class to keep track of actions and other information</param>
         public void GetCurrentEnvironment(ThunderBorg_class borg, Logger_class logger = null)
         {
             Stopwatch elapsedTime = new Stopwatch();
@@ -276,6 +326,11 @@ namespace ThunderSharpLibrary
             if (log) logger.WriteLog("\tEnumeration took " + elapsedTime.ElapsedMilliseconds.ToString() + " milliseconds...");
         }
 
+        /// <summary>
+        /// Sets the _initialized_ [ThunderBorg_class] board to the settings contained in this object.  **NOTE** if the board address differs from this object's board address, this method will not run.
+        /// </summary>
+        /// <param name="borg">The _intiialized_ ThunderBorg board to be enumerated</param>
+        /// <param name="logger">[Optional] Logger class to keep track of actions and other information</param>
         public void SetCurrentEnvironment(ThunderBorg_class borg, Logger_class logger = null)
         {
             Stopwatch elapsedTime = new Stopwatch();
