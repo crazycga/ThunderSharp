@@ -55,9 +55,9 @@ namespace ThunderSharpLibrary
 
         private int _bus = 0x01;
         private int _TBorgAddress = 0x00;
-        private Logger_class _log = null;
+        private ILogger _log = null;
 
-        public static int ScanForThunderBorg(int busNumber = 1, Logger_class log = null)
+        public static int ScanForThunderBorg(int busNumber = 1, ILogger log = null)
         {
             int tempReturn = -1;
 
@@ -106,7 +106,7 @@ namespace ThunderSharpLibrary
             throw new NotImplementedException("Not yet implemented");
         }
 
-        public ThunderBorg_class(Logger_class log = null, bool tryOtherBus = false)
+        public ThunderBorg_class(ILogger log = null, bool tryOtherBus = false)
         {
             if (log != null)
             {
@@ -143,7 +143,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public void SetMotorA(int power, Logger_class log = null)
+        public void SetMotorA(int power, ILogger log = null)
         {
             if (!_CheckInit())
             {
@@ -187,7 +187,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public void SetMotorB(int power, Logger_class log = null)
+        public void SetMotorB(int power, ILogger log = null)
         {
             if (!_CheckInit())
             {
@@ -231,7 +231,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public int GetMotorA(Logger_class log = null)
+        public int GetMotorA(ILogger log = null)
         {
             int tempReturn = 0;
 
@@ -291,7 +291,7 @@ namespace ThunderSharpLibrary
             return tempReturn;
         }
 
-        public int GetMotorB(Logger_class log = null)
+        public int GetMotorB(ILogger log = null)
         {
             int tempReturn = 0;
 
@@ -351,7 +351,7 @@ namespace ThunderSharpLibrary
             return tempReturn;
         }
 
-        public void SetAllMotors(int power, Logger_class log = null)
+        public void SetAllMotors(int power, ILogger log = null)
         {
             if (!_CheckInit())
             {
@@ -395,7 +395,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public void AllStop(Logger_class log = null)
+        public void AllStop(ILogger log = null)
         {
             if (!_CheckInit(log, true))
             {
@@ -413,7 +413,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public byte[] GetDriveFaultA(Logger_class log = null)
+        public byte[] GetDriveFaultA(ILogger log = null)
         {
             if (!_CheckInit(log, true))
             {
@@ -441,7 +441,7 @@ namespace ThunderSharpLibrary
             return tempReturn;
         }
 
-        public byte[] GetDriveFaultB(Logger_class log = null)
+        public byte[] GetDriveFaultB(ILogger log = null)
         {
             if (!_CheckInit(log, true))
             {
@@ -469,7 +469,7 @@ namespace ThunderSharpLibrary
             return tempReturn;
         }
 
-        public void SetFailsafe(bool setting, Logger_class log = null)
+        public void SetFailsafe(bool setting, ILogger log = null)
         {
             if (!_CheckInit())
             {
@@ -497,7 +497,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public bool GetFailsafe(Logger_class log = null)
+        public bool GetFailsafe(ILogger log = null)
         {
             if (!_CheckInit())
             {
@@ -524,7 +524,7 @@ namespace ThunderSharpLibrary
             return tempReturn;
         }
 
-        public byte[] GetLED1(Logger_class log = null)
+        public byte[] GetLED1(ILogger log = null)
         {
             byte[] tempReturn;
 
@@ -567,7 +567,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public byte[] GetLED2(Logger_class log = null)
+        public byte[] GetLED2(ILogger log = null)
         {
             byte[] tempReturn;
 
@@ -610,7 +610,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public bool GetLEDBatteryMonitor(Logger_class log = null)
+        public bool GetLEDBatteryMonitor(ILogger log = null)
         {
             bool tempReturn = false;
 
@@ -649,7 +649,7 @@ namespace ThunderSharpLibrary
             return tempReturn;
         }
 
-        public void SetLEDBatteryMonitor(bool setting, Logger_class log = null)
+        public void SetLEDBatteryMonitor(bool setting, ILogger log = null)
         {
             if (!_CheckInit())
             {
@@ -674,7 +674,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public void SetLED1(byte red, byte green, byte blue, Logger_class log = null)
+        public void SetLED1(byte red, byte green, byte blue, ILogger log = null)
         {
             if (!_CheckInit())
             {
@@ -696,7 +696,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public void SetLED2(byte red, byte green, byte blue, Logger_class log = null)
+        public void SetLED2(byte red, byte green, byte blue, ILogger log = null)
         {
             if (!_CheckInit())
             {
@@ -718,7 +718,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public void SetLEDs(byte red, byte green, byte blue, Logger_class log = null)
+        public void SetLEDs(byte red, byte green, byte blue, ILogger log = null)
         {
             if (!_CheckInit())
             {
@@ -751,7 +751,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public decimal GetBatteryVoltage(Logger_class log = null)
+        public decimal GetBatteryVoltage(ILogger log = null)
         {
             int tempIntReturn = 0;
             decimal tempReturn = 0.00M;
@@ -791,7 +791,7 @@ namespace ThunderSharpLibrary
             return tempReturn;
         }
 
-        public byte GetBoardID (Logger_class log = null)
+        public byte GetBoardID (ILogger log = null)
         {
             byte tempReturn = 0x00;
 
@@ -818,7 +818,7 @@ namespace ThunderSharpLibrary
             return tempReturn;
         }
 
-        public decimal[] GetBatteryMonitoringLimits(Logger_class log = null)
+        public decimal[] GetBatteryMonitoringLimits(ILogger log = null)
         {
             decimal tempMin = 0.00M;
             decimal tempMax = 0.00M;
@@ -866,7 +866,7 @@ namespace ThunderSharpLibrary
         /// <param name="minimum">Minimum voltage (0 V minimum)</param>
         /// <param name="maximum">Maximum voltage (36.3 V maximum)</param>
         /// <param name="log">Optional logging output routine</param>
-        public void SetBatteryMonitoringLimits(decimal minimum, decimal maximum, Logger_class log = null)
+        public void SetBatteryMonitoringLimits(decimal minimum, decimal maximum, ILogger log = null)
         {
             // my original values were 6.98 / 35.02; I don't know what the defaults are
             if (!_CheckInit())
@@ -892,7 +892,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public void WaveLEDs(Logger_class log = null)
+        public void WaveLEDs(ILogger log = null)
         {
             bool batSetting = false;
             batSetting = this.GetLEDBatteryMonitor(log);
@@ -927,7 +927,7 @@ namespace ThunderSharpLibrary
             Console.ReadKey(true);
         }
 
-        public void TestSpeeds(Logger_class log = null)
+        public void TestSpeeds(ILogger log = null)
         {
             if (log != null)
             {
@@ -952,7 +952,7 @@ namespace ThunderSharpLibrary
             if (Console.KeyAvailable) Console.ReadKey(true);
         }
 
-        private bool _CheckInit(Logger_class log = null, bool throwException = false)
+        private bool _CheckInit(ILogger log = null, bool throwException = false)
         {
             bool tempReturn = false;
 

@@ -274,7 +274,7 @@ namespace ThunderSharpLibrary
         /// </summary>
         /// <param name="borg">The _intiialized_ ThunderBorg board to be enumerated</param>
         /// <param name="logger">[Optional] Logger class to keep track of actions and other information</param>
-        public void GetCurrentEnvironment(ThunderBorg_class borg, Logger_class logger = null)
+        public void GetCurrentEnvironment(ThunderBorg_class borg, ILogger logger = null)
         {
             Stopwatch elapsedTime = new Stopwatch();
             elapsedTime.Start();
@@ -331,7 +331,7 @@ namespace ThunderSharpLibrary
         /// </summary>
         /// <param name="borg">The _intiialized_ ThunderBorg board to be enumerated</param>
         /// <param name="logger">[Optional] Logger class to keep track of actions and other information</param>
-        public void SetCurrentEnvironment(ThunderBorg_class borg, Logger_class logger = null)
+        public void SetCurrentEnvironment(ThunderBorg_class borg, ILogger logger = null)
         {
             Stopwatch elapsedTime = new Stopwatch();
             elapsedTime.Start();

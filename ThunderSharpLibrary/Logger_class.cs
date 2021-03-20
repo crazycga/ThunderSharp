@@ -5,7 +5,7 @@ namespace ThunderSharpLibrary
     /// <summary>
     /// The intention here is to allow for a variety of logging methods, so you're not tied to the Console.Writeline output; requires only a "WriteLog (string message)" function
     /// </summary>
-    public class Logger_class
+    public class Logger_class : ILogger
     {
         private string _filename = string.Empty;
 
