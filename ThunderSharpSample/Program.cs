@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using ThunderSharpLibrary;
 
-namespace ThunderSharpSample
+namespace SampleApp
 {
 	class Program
 	{
