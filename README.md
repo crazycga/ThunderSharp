@@ -15,3 +15,61 @@ located at Microsoft's website: https://docs.microsoft.com/en-us/dotnet/iot/depl
 
 ## Future
 This .md is part of the project, and will be updated as time goes on.
+
+## ThunderBorgSettings_class
+
+### Attributes
+
+#### Id
+
+Used for assigning an ID value in case you are storing this in a database.
+
+#### BoardAddress
+
+Tracks the board address of the settings.  **NOTE** if you try to restore settings using *SetCurrentEnvironment* and the board address does not match, the class will throw an ArugmentException.
+
+#### VoltagePinMax
+
+Exposes the voltage pin max that was in use by the code at the time that the settings were captured.  **NOTE** this value is a constant in the code, set by VOLTAGE_PIN_MAX in the ThunderBorg class.
+
+#### BatteryMonitorMin
+
+This is the minimum value used by the GetBatteryMonitoringLimits method of the ThunderBorg object.
+
+#### BatteryMonitorMax
+
+This is the maximum value used by the GetBatteryMonitoringLimits method of the ThunderBorg ojbect.
+
+#### LED1_Red / LED1_Green / LED1_Blue
+
+Each of these bytes represents the settings for LED1: red, green and blue.
+
+#### LED2_Red / LED2_Green / LED2_Blue
+
+Each of these bytes represents the settings for LED2: red, green and blue.
+
+#### BatteryMonitoringState
+
+True / false value representing the battery monitoring state.
+
+#### FailSafeState
+
+True / false value representing the failsafe state.
+
+#### IsUsed [readonly]
+
+True / false state indicating whether or not the object has been assigned any value; **false** indicates that it has not changed since instantiation.
+
+### Events
+
+#### PropertyChanged()
+
+Trigger when a value assigned to the object changes.
+
+### Methods
+
+#### GetCurrentEnvironment(ThunderBorg_class, Logger_class)
+Sets the object to the current ThunderBorg settings that it finds.
+
+#### SetCurrentEnvironment(ThunderBorg_class, Logger_class)
+Sets the current environment to the settings in the object, **subject to** the board address being the same.  This method will not work if the object has not been changed since instantiation.

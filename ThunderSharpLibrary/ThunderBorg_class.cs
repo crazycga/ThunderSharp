@@ -2,7 +2,7 @@
 
 namespace ThunderSharpLibrary
 {
-    public class ThunderBorg
+    public class ThunderBorg_class
     {
         // based on original source written by Arron Churchill (I think): https://www.piborg.org/blog/piborg-arron
         public static readonly bool THROTTLE_CODE               = true;     // added to introduce code throttling; maybe the code is too fast?
@@ -63,7 +63,7 @@ namespace ThunderSharpLibrary
 
             if (log != null)
             {
-                log.WriteLog("Starting scan for ThunderBorg board...");
+                log.WriteLog("Starting scan for ThunderBorg_class board...");
             }
 
             using (var bus = I2CBus.Open("/dev/i2c-" + busNumber.ToString()))
@@ -81,7 +81,7 @@ namespace ThunderSharpLibrary
                                 tempReturn = port;
                                 if (log != null)
                                 {
-                                    log.WriteLog("FOUND ThunderBorg board on port: " + port.ToString("X2"));
+                                    log.WriteLog("FOUND ThunderBorg_class board on port: " + port.ToString("X2"));
                                 }
                             }
                         }
@@ -106,24 +106,24 @@ namespace ThunderSharpLibrary
             throw new NotImplementedException("Not yet implemented");
         }
 
-        public ThunderBorg(Logger_class log = null, bool tryOtherBus = false)
+        public ThunderBorg_class(Logger_class log = null, bool tryOtherBus = false)
         {
             if (log != null)
             {
                 this._log = log;
                 log.WriteLog("THROTTLE_CODE: " + THROTTLE_CODE.ToString());
                 log.WriteLog();
-                log.WriteLog("Finding ThunderBorg...");
-                _TBorgAddress = ThunderBorg.ScanForThunderBorg(1, log);
+                log.WriteLog("Finding ThunderBorg_class...");
+                _TBorgAddress = ThunderBorg_class.ScanForThunderBorg(1, log);
             }
             else
             {
-                _TBorgAddress = ThunderBorg.ScanForThunderBorg();
+                _TBorgAddress = ThunderBorg_class.ScanForThunderBorg();
             }
 
             if (log != null)
             {
-                log.WriteLog("Loding ThunderBorg on bus " + _bus.ToString("X2") + ", address " + _TBorgAddress.ToString("X2"));
+                log.WriteLog("Loding ThunderBorg_class on bus " + _bus.ToString("X2") + ", address " + _TBorgAddress.ToString("X2"));
             }
         }
 
@@ -139,7 +139,7 @@ namespace ThunderSharpLibrary
         {
             get
             {
-                return ThunderBorg.VOLTAGE_PIN_MAX;
+                return ThunderBorg_class.VOLTAGE_PIN_MAX;
             }
         }
 
@@ -253,7 +253,7 @@ namespace ThunderSharpLibrary
                 {
                     if (log != null)
                     {
-                        log.WriteLog("*** ERROR: no response from ThunderBorg...");
+                        log.WriteLog("*** ERROR: no response from ThunderBorg_class...");
                     }
 
                     throw new NullReferenceException("No parseable response from A motors on GetMotorA request.");
@@ -313,7 +313,7 @@ namespace ThunderSharpLibrary
                 {
                     if (log != null)
                     {
-                        log.WriteLog("*** ERROR: no response from ThunderBorg...");
+                        log.WriteLog("*** ERROR: no response from ThunderBorg_class...");
                     }
 
                     throw new NullReferenceException("No parseable response from B motors on GetMotorB request.");
@@ -501,7 +501,7 @@ namespace ThunderSharpLibrary
         {
             if (!_CheckInit())
             {
-                throw new NullReferenceException("ThunderBorg not initiated.");
+                throw new NullReferenceException("ThunderBorg_class not initiated.");
             }
 
             bool tempReturn = false;
@@ -616,7 +616,7 @@ namespace ThunderSharpLibrary
 
             if (!_CheckInit())
             {
-                throw new NullReferenceException("ThunderBorg not initiated.");
+                throw new NullReferenceException("ThunderBorg_class not initiated.");
             }
 
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
@@ -758,7 +758,7 @@ namespace ThunderSharpLibrary
 
             if (!_CheckInit())
             {
-                throw new NullReferenceException("ThunderBorg not initiated.");
+                throw new NullReferenceException("ThunderBorg_class not initiated.");
             }
 
             if (log != null)
@@ -797,7 +797,7 @@ namespace ThunderSharpLibrary
 
             if (!_CheckInit())
             {
-                throw new NullReferenceException("ThunderBorg not initiated.");
+                throw new NullReferenceException("ThunderBorg_class not initiated.");
             }
 
             if (log != null)
@@ -825,7 +825,7 @@ namespace ThunderSharpLibrary
 
             if (!_CheckInit())
             {
-                throw new NullReferenceException("ThunderBorg not initiated.");
+                throw new NullReferenceException("ThunderBorg_class not initiated.");
             }
 
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
@@ -871,7 +871,7 @@ namespace ThunderSharpLibrary
             // my original values were 6.98 / 35.02; I don't know what the defaults are
             if (!_CheckInit())
             {
-                throw new NullReferenceException("ThunderBorg not initiated.");
+                throw new NullReferenceException("ThunderBorg_class not initiated.");
             }
 
             minimum /= Convert.ToDecimal(VOLTAGE_PIN_MAX);
@@ -960,12 +960,12 @@ namespace ThunderSharpLibrary
             {
                 if (log != null)
                 {
-                    log.WriteLog("ThunderBorg not initiated...");
+                    log.WriteLog("ThunderBorg_class not initiated...");
                 }
 
                 if (throwException)
                 {
-                    throw new InvalidOperationException("ThunderBorg not initialized.");
+                    throw new InvalidOperationException("ThunderBorg_class not initialized.");
                 }
                 else
                 {

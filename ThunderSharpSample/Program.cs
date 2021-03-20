@@ -9,7 +9,7 @@ namespace SampleApp
 		{
 			Console.WriteLine("Hello World!");
 			Logger_class myLog = new Logger_class();
-			ThunderBorg myBorg = new ThunderBorg(myLog);
+			ThunderBorg_class myBorg = new ThunderBorg_class(myLog);
 
 			ThunderBorgSettings_class initialSettings = new ThunderBorgSettings_class();
 			initialSettings.GetCurrentEnvironment(myBorg, myLog);
@@ -26,7 +26,7 @@ namespace SampleApp
 
 		}
 
-		private static void TestLEDs(ThunderBorg myBorg, Logger_class log)
+		private static void TestLEDs(ThunderBorg_class myBorg, Logger_class log)
         {
 			log.WriteLog("------------------------------------------------------------------");
 			log.WriteLog("Starting LED test...");
@@ -83,7 +83,7 @@ namespace SampleApp
 			log.WriteLog("Finished test.");
 		}
 
-		private static void TestBorg(ThunderBorg myBorg, Logger_class log)
+		private static void TestBorg(ThunderBorg_class myBorg, Logger_class log)
 		{
 			myBorg.SetLEDBatteryMonitor(false, log);
 

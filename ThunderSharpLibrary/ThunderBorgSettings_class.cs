@@ -224,7 +224,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public void GetCurrentEnvironment(ThunderBorg borg, Logger_class logger = null)
+        public void GetCurrentEnvironment(ThunderBorg_class borg, Logger_class logger = null)
         {
             Stopwatch elapsedTime = new Stopwatch();
             elapsedTime.Start();
@@ -276,7 +276,7 @@ namespace ThunderSharpLibrary
             if (log) logger.WriteLog("\tEnumeration took " + elapsedTime.ElapsedMilliseconds.ToString() + " milliseconds...");
         }
 
-        public void SetCurrentEnvironment(ThunderBorg borg, Logger_class logger = null)
+        public void SetCurrentEnvironment(ThunderBorg_class borg, Logger_class logger = null)
         {
             Stopwatch elapsedTime = new Stopwatch();
             elapsedTime.Start();
@@ -301,7 +301,7 @@ namespace ThunderSharpLibrary
             if (borg.CurrentAddress != this.BoardAddress)
             {
                 if (log) logger.WriteLog("Possibly invalid settings; this board's address is 0x" + borg.CurrentAddress.ToString("X2") + " but the setting says 0x" + this.BoardAddress.ToString("X2"));
-                throw new ArgumentException("ThunderBorg address doesn't match settings address.", "ThunderBorgSettings.BoardAddress");
+                throw new ArgumentException("ThunderBorg_class address doesn't match settings address.", "ThunderBorgSettings.BoardAddress");
             }
             else
             {
