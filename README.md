@@ -1,5 +1,5 @@
 # ThunderSharp
-==============
+
 [![Build DLLs](https://github.com/crazycga/ThunderSharp/actions/workflows/dotnet.yml/badge.svg)](https://github.com/crazycga/ThunderSharp/actions/workflows/dotnet.yml)
 
 ## Overview
