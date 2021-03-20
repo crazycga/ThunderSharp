@@ -5,6 +5,7 @@ namespace ThunderSharpLibrary
     public class ThunderBorg
     {
         // based on original source written by Arron Churchill (I think): https://www.piborg.org/blog/piborg-arron
+        public static readonly bool THROTTLE_CODE               = true;     // added to introduce code throttling; maybe the code is too fast?
 
         public static readonly ushort I2C_SLAVE                 = 0x0703;
         public static readonly byte PWN_MAX                     = 0xFF;
@@ -110,6 +111,8 @@ namespace ThunderSharpLibrary
             if (log != null)
             {
                 this._log = log;
+                log.WriteLog("THROTTLE_CODE: " + THROTTLE_CODE.ToString());
+                log.WriteLog();
                 log.WriteLog("Finding ThunderBorg...");
                 _TBorgAddress = ThunderBorg.ScanForThunderBorg(1, log);
             }
@@ -121,6 +124,22 @@ namespace ThunderSharpLibrary
             if (log != null)
             {
                 log.WriteLog("Loding ThunderBorg on bus " + _bus.ToString("X2") + ", address " + _TBorgAddress.ToString("X2"));
+            }
+        }
+
+        public int CurrentAddress
+        {
+            get
+            {
+                return this._TBorgAddress;
+            }
+        }
+
+        public decimal VoltagePinMax
+        {
+            get
+            {
+                return ThunderBorg.VOLTAGE_PIN_MAX;
             }
         }
 
@@ -255,7 +274,7 @@ namespace ThunderSharpLibrary
 
                     if (log != null)
                     {
-                        log.WriteLog("Raw response: " + _BytesToString(response));
+                        log.WriteLog("Raw response: " + BytesToString(response));
                     }
 
                     if (power_direction == COMMAND_VALUE_FWD)
@@ -315,7 +334,7 @@ namespace ThunderSharpLibrary
                     
                     if (log != null)
                     {
-                        log.WriteLog("Raw response: " + _BytesToString(response));
+                        log.WriteLog("Raw response: " + BytesToString(response));
                     }
 
                     if (power_direction == COMMAND_VALUE_FWD)
@@ -415,7 +434,7 @@ namespace ThunderSharpLibrary
 
                 if (log != null) 
                 {
-                    log.WriteLog("Raw Response: " + _BytesToString(tempReturn));
+                    log.WriteLog("Raw Response: " + BytesToString(tempReturn));
                 }
             }
 
@@ -443,7 +462,7 @@ namespace ThunderSharpLibrary
 
                 if (log != null) 
                 {
-                    log.WriteLog("Raw Response: " + _BytesToString(tempReturn));
+                    log.WriteLog("Raw Response: " + BytesToString(tempReturn));
                 }
             }
 
@@ -493,7 +512,7 @@ namespace ThunderSharpLibrary
                 byte[] response = bus.ReadBytes(_TBorgAddress, I2C_MAX_LEN);
                 if (log != null)
                 {
-                    log.WriteLog("Got response on failsafe: " + _BytesToString(response));
+                    log.WriteLog("Got response on failsafe: " + BytesToString(response));
                 }
 
                 if (response[0] == COMMAND_GET_FAILSAFE)
@@ -505,7 +524,7 @@ namespace ThunderSharpLibrary
             return tempReturn;
         }
 
-        public byte[] GetLED1(Logger_class log)
+        public byte[] GetLED1(Logger_class log = null)
         {
             byte[] tempReturn;
 
@@ -514,17 +533,24 @@ namespace ThunderSharpLibrary
                 return null;
             }
 
-            log.WriteLog("Calling results for get LED 1...");
+            if (log != null)
+            {
+                log.WriteLog("Calling results for get LED 1...");
+            }
 
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
             {
                 bus.WriteBytes(_TBorgAddress, new byte[] { COMMAND_GET_LED1 });
+                if (THROTTLE_CODE)
+                {
+                    System.Threading.Thread.Sleep(200);
+                }
                 tempReturn = bus.ReadBytes(_TBorgAddress, I2C_MAX_LEN);
                 if (tempReturn[0] == COMMAND_GET_LED1)
                 {
                     if (log != null) 
                     {
-                        log.WriteLog("Get LED1 response: " + this._BytesToString(tempReturn));
+                        log.WriteLog("Get LED1 response: " + this.BytesToString(tempReturn));
                     }
 
                     return tempReturn;
@@ -533,7 +559,7 @@ namespace ThunderSharpLibrary
                 {
                     if (log != null)
                     {
-                        log.WriteLog("Got a nonsense reponse from COMMAND_GET_LED1..." + this._BytesToString(tempReturn));
+                        log.WriteLog("Got a nonsense reponse from COMMAND_GET_LED1..." + this.BytesToString(tempReturn));
                     }
 
                     throw new InvalidProgramException("Nonsense response during COMMAND_GET_LED1.");
@@ -541,7 +567,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public byte[] GetLED2(Logger_class log)
+        public byte[] GetLED2(Logger_class log = null)
         {
             byte[] tempReturn;
 
@@ -550,17 +576,24 @@ namespace ThunderSharpLibrary
                 return null;
             }
 
-            log.WriteLog("Calling results for get LED 2...");
+            if (log != null)
+            {
+                log.WriteLog("Calling results for get LED 2...");
+            }
 
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
             {
                 bus.WriteBytes(_TBorgAddress, new byte[] { COMMAND_GET_LED2 });
+                if (THROTTLE_CODE)
+                {
+                    System.Threading.Thread.Sleep(200);
+                }
                 tempReturn = bus.ReadBytes(_TBorgAddress, I2C_MAX_LEN);
                 if (tempReturn[0] == COMMAND_GET_LED2)
                 {
                     if (log != null)
                     {
-                        log.WriteLog("Get LED2 response: " + this._BytesToString(tempReturn));
+                        log.WriteLog("Get LED2 response: " + this.BytesToString(tempReturn));
                     }
 
                     return tempReturn;
@@ -569,7 +602,7 @@ namespace ThunderSharpLibrary
                 {
                     if (log != null)
                     {
-                        log.WriteLog("Got a nonsense reponse from COMMAND_GET_LED2..." + this._BytesToString(tempReturn));
+                        log.WriteLog("Got a nonsense reponse from COMMAND_GET_LED2..." + this.BytesToString(tempReturn));
                     }
 
                     throw new InvalidProgramException("Nonsense response during COMMAND_GET_LED2.");
@@ -592,7 +625,7 @@ namespace ThunderSharpLibrary
                 byte[] response = bus.ReadBytes(_TBorgAddress, I2C_MAX_LEN);
                 if (log != null)
                 {
-                    log.WriteLog("Response from COMMAND_GET_LED_BATT_MON: " + this._BytesToString(response));
+                    log.WriteLog("Response from COMMAND_GET_LED_BATT_MON: " + this.BytesToString(response));
                 }
                 if (response[0] == COMMAND_GET_LED_BATT_MON)
                 {
@@ -626,11 +659,18 @@ namespace ThunderSharpLibrary
             if (log != null) 
             {
                 log.WriteLog("Setting LED battery monitor to: " + setting.ToString());
+                log.WriteLog("Specifically: " + Convert.ToByte(setting));
+                log.WriteLog("Comparison [off]:" + Convert.ToByte(COMMAND_VALUE_OFF));
+                log.WriteLog("Comparison [on]: " + Convert.ToByte(COMMAND_VALUE_ON));
             }
 
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
             {
                 bus.WriteBytes(_TBorgAddress, new byte[] { COMMAND_SET_LED_BATT_MON, Convert.ToByte(setting) });
+                if (THROTTLE_CODE)
+                {
+                    System.Threading.Thread.Sleep(200);
+                }
             }
         }
 
@@ -649,6 +689,10 @@ namespace ThunderSharpLibrary
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
             {
                 bus.WriteBytes(_TBorgAddress, new byte[] { COMMAND_SET_LED1, red, green, blue });
+                if (THROTTLE_CODE)
+                {
+                    System.Threading.Thread.Sleep(200);
+                }
             }
         }
 
@@ -667,6 +711,10 @@ namespace ThunderSharpLibrary
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
             {
                 bus.WriteBytes(_TBorgAddress, new byte[] { COMMAND_SET_LED2, red, green, blue });
+                if (THROTTLE_CODE)
+                {
+                    System.Threading.Thread.Sleep(200);
+                }
             }
         }
 
@@ -684,12 +732,21 @@ namespace ThunderSharpLibrary
 
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
             {
+                if (log != null) 
+                {
+                    log.WriteLog("Setting LEDs using command: " + this.BytesToString(new byte[] { COMMAND_SET_LEDS, red, green, blue }));
+                }
+
                 bus.WriteBytes(_TBorgAddress, new byte[] { COMMAND_SET_LEDS, red, green, blue });
+                if (THROTTLE_CODE)
+                {
+                    System.Threading.Thread.Sleep(200);
+                }
                 byte[] response = bus.ReadBytes(_TBorgAddress, I2C_MAX_LEN);
 
                 //if (log != null)
                 //{
-                //    log.WriteLog("Raw response to SET_LEDS: " + this._BytesToString(response));
+                //    log.WriteLog("Raw response to SET_LEDS: " + this.BytesToString(response));
                 //}
             }
         }
@@ -716,7 +773,7 @@ namespace ThunderSharpLibrary
 
                 if (log != null)
                 {
-                    log.WriteLog("GET_BATT_VOLT response: " + this._BytesToString(response));
+                    log.WriteLog("GET_BATT_VOLT response: " + this.BytesToString(response));
                 }
 
                 if (response[0] == COMMAND_GET_BATT_VOLT)
@@ -835,6 +892,66 @@ namespace ThunderSharpLibrary
             }
         }
 
+        public void WaveLEDs(Logger_class log = null)
+        {
+            bool batSetting = false;
+            batSetting = this.GetLEDBatteryMonitor(log);
+
+            while (batSetting)
+            {
+                log.WriteLog("Battery was monitoring; resetting to off.");
+                this.SetLEDBatteryMonitor(false, log);
+                batSetting = this.GetLEDBatteryMonitor(log);
+            }
+
+            log.WriteLog("This routine will run through the colors of the LEDs.  Press any key to stop.");
+            while (!Console.KeyAvailable)
+            {
+                for (int i = 0; i < 255; i = i + 10)
+                {
+                    for (int j = 0; j < 255; j = j + 10)
+                    {
+                        for (int k = 0; k < 255; k = k + 10)
+                        {
+                            log.WriteLog("Set LED1: 01 " + i.ToString("X2") + " " + j.ToString("X2") + " " + k.ToString("X2") + " 00 00  LED2: 03 " + i.ToString("X2") + " " + j.ToString("X2") + " " + k.ToString("X2") + " 00 00");
+                            this.SetLEDs(Convert.ToByte(i), Convert.ToByte(j), Convert.ToByte(k), log);
+                            log.WriteLog("Get LED1: " + this.BytesToString(this.GetLED1()) + " LED2: " + this.BytesToString(this.GetLED2()));
+                            if (Console.KeyAvailable) break;
+                        }
+                        if (Console.KeyAvailable) break;
+                    }
+                    if (Console.KeyAvailable) break;
+                }
+                if (Console.KeyAvailable) break;
+            }
+            Console.ReadKey(true);
+        }
+
+        public void TestSpeeds(Logger_class log = null)
+        {
+            if (log != null)
+            {
+                log.WriteLog("Testing a slow to fast speed on both wheels.  Press any key to stop.");
+            }
+
+            for(int i = 0; i < 256; i++)
+            {
+                this.SetAllMotors(i);
+                System.Threading.Thread.Sleep(10);
+                if (Console.KeyAvailable) break;
+            }
+
+            for (int i = 255; i > 0; i--)
+            {
+                this.SetAllMotors(i);
+                System.Threading.Thread.Sleep(10);
+                if (Console.KeyAvailable) break;
+            }
+
+            this.AllStop();
+            if (Console.KeyAvailable) Console.ReadKey(true);
+        }
+
         private bool _CheckInit(Logger_class log = null, bool throwException = false)
         {
             bool tempReturn = false;
@@ -848,7 +965,7 @@ namespace ThunderSharpLibrary
 
                 if (throwException)
                 {
-                    throw new ApplicationException("ThunderBorg not initialized.");
+                    throw new InvalidOperationException("ThunderBorg not initialized.");
                 }
                 else
                 {
@@ -863,7 +980,7 @@ namespace ThunderSharpLibrary
             return tempReturn;
         }
 
-        private string _BytesToString (byte[] incoming)
+        public string BytesToString (byte[] incoming)
         {
             string tempReturn = string.Empty;
 
