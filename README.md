@@ -1,5 +1,7 @@
 # ThunderSharp
 ==============
+[![Build DLLs](https://github.com/crazycga/ThunderSharp/actions/workflows/dotnet.yml/badge.svg)](https://github.com/crazycga/ThunderSharp/actions/workflows/dotnet.yml)
+
 ## Overview
 This project is a .NET Core implementation of the control library for the ThunderBorg controller for the PiBorg: https://www.piborg.org/
 The core of this project stems from a Mono implemention written by mshmelv called RPi.I2C.Net: https://github.com/mshmelev/RPi.I2C.Net
