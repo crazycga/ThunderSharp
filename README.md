@@ -13,6 +13,12 @@ The library leverages the C library *libnativei2c.so*, and this gentlemen has so
 The .NET Core 3.1 (at the time of this writing) runtime engine is available from Microsoft.  Installation is done using the steps
 located at Microsoft's website: https://docs.microsoft.com/en-us/dotnet/iot/deployment
 
+## NuGet Package  ![Nuget](https://img.shields.io/nuget/v/ThunderSharpLibrary)
+
+The NuGet package is available with the command 
+
+`Install-Package ThunderSharpLibrary`
+
 ## Future
 This .md is part of the project, and will be updated as time goes on.
 
