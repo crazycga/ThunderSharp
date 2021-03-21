@@ -4,8 +4,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThunderSharpLibrary", "ThunderSharpLibrary\ThunderSharpLibrary.csproj", "{66B9D6B3-4151-47DC-A652-8E0A77FB2129}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5C9B0284-5921-40FF-9D73-CFDD7F547B46} = {5C9B0284-5921-40FF-9D73-CFDD7F547B46}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThunderSharpSample", "ThunderSharpSample\ThunderSharpSample.csproj", "{A6195822-AFE0-46EF-9B90-93DEF47F9086}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5C9B0284-5921-40FF-9D73-CFDD7F547B46} = {5C9B0284-5921-40FF-9D73-CFDD7F547B46}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibNativeI2C", "LibNativeI2C\LibNativeI2C.vcxproj", "{5C9B0284-5921-40FF-9D73-CFDD7F547B46}"
 EndProject

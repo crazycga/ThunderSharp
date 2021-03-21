@@ -25,8 +25,12 @@ int writeBytes(int busHandle, int addr, byte* buf, int len)
     if (ioctl(busHandle, I2C_SLAVE, addr) < 0)
         return -1;
 
-    if (write(busHandle, buf, len) != len)
+    // This code used to be on one line, but operated too fast for a ThunderBorg board; expanded down to multiline for throttling and visual purposes
+    int rlen = write(busHandle, buf, len);
+    if (rlen != len)
+    {
         return -2;
+    }
 
     return len;
 }
