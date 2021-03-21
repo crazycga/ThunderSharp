@@ -15,6 +15,7 @@ namespace SampleApp
 			initialSettings.GetCurrentEnvironment(myBorg, myLog);
 
 			TestLogger(myLog);
+			myLog.DefaultLogLevel = ILogger.Priority.Medium;
 
 			myBorg.SetFailsafe(false, myLog);
             TestBorg(myBorg, myLog);

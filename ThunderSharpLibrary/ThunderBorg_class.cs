@@ -652,10 +652,7 @@ namespace ThunderSharpLibrary
 
             if (log != null) 
             {
-                log.WriteLog("Setting LED battery monitor to: " + setting.ToString());
-                log.WriteLog("Specifically: " + Convert.ToByte(setting));
-                log.WriteLog("Comparison [off]:" + Convert.ToByte(COMMAND_VALUE_OFF));
-                log.WriteLog("Comparison [on]: " + Convert.ToByte(COMMAND_VALUE_ON));
+                log.WriteLog("Setting LED battery monitor to: " + setting.ToString(), ILogger.Priority.Information);
             }
 
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
@@ -673,7 +670,7 @@ namespace ThunderSharpLibrary
 
             if (log != null)
             {
-                log.WriteLog("Setting LED 1...");
+                log.WriteLog("Setting LED 1...", ILogger.Priority.Information);
             }
 
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
@@ -691,7 +688,7 @@ namespace ThunderSharpLibrary
 
             if (log != null)
             {
-                log.WriteLog("Setting LED 2...");
+                log.WriteLog("Setting LED 2...", ILogger.Priority.Information);
             }
 
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
@@ -709,24 +706,14 @@ namespace ThunderSharpLibrary
 
             if (log != null)
             {
-                log.WriteLog("Setting LEDs to " + red.ToString() + ", " + green.ToString() + ", " + blue.ToString() + "...");
+                log.WriteLog("Setting LEDs to " + red.ToString() + ", " + green.ToString() + ", " + blue.ToString() + "...", ILogger.Priority.Information);
             }
 
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
             {
-                if (log != null) 
-                {
-                    log.WriteLog("Setting LEDs using command: " + this.BytesToString(new byte[] { COMMAND_SET_LEDS, red, green, blue }));
-                }
-
                 bus.WriteBytes(_TBorgAddress, new byte[] { COMMAND_SET_LEDS, red, green, blue });
 
                 byte[] response = bus.ReadBytes(_TBorgAddress, I2C_MAX_LEN);
-
-                //if (log != null)
-                //{
-                //    log.WriteLog("Raw response to SET_LEDS: " + this.BytesToString(response));
-                //}
             }
         }
 
@@ -742,7 +729,7 @@ namespace ThunderSharpLibrary
 
             if (log != null)
             {
-                log.WriteLog("Getting battery voltage...");
+                log.WriteLog("Getting battery voltage...", ILogger.Priority.Information);
             }
 
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
@@ -752,7 +739,7 @@ namespace ThunderSharpLibrary
 
                 if (log != null)
                 {
-                    log.WriteLog("GET_BATT_VOLT response: " + this.BytesToString(response));
+                    log.WriteLog("GET_BATT_VOLT response: " + this.BytesToString(response), ILogger.Priority.Information);
                 }
 
                 if (response[0] == COMMAND_GET_BATT_VOLT)
@@ -781,7 +768,7 @@ namespace ThunderSharpLibrary
 
             if (log != null)
             {
-                log.WriteLog("Checking board ID...");
+                log.WriteLog("Checking board ID...", ILogger.Priority.Information);
             }
 
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
@@ -829,7 +816,7 @@ namespace ThunderSharpLibrary
 
                     if (log != null)
                     {
-                        log.WriteLog("Voltages found - min: " + tempMin.ToString() + " max: " + tempMax.ToString());
+                        log.WriteLog("Voltages found - min: " + tempMin.ToString() + " max: " + tempMax.ToString(), ILogger.Priority.Information);
                     }
 
                     return tempReturn;
@@ -861,7 +848,7 @@ namespace ThunderSharpLibrary
 
             if (log != null)
             {
-                log.WriteLog("Trying to set battery monitoring limits to: 0x" + levelMin.ToString("X2") + " V. min and 0x" + levelMax.ToString("X2") + " V. max...");
+                log.WriteLog("Trying to set battery monitoring limits to: 0x" + levelMin.ToString("X2") + " V. min and 0x" + levelMax.ToString("X2") + " V. max...", ILogger.Priority.Information);
             }
 
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
@@ -878,12 +865,12 @@ namespace ThunderSharpLibrary
 
             while (batSetting)
             {
-                log.WriteLog("Battery was monitoring; resetting to off.");
+                log.WriteLog("Battery was monitoring; resetting to off.", ILogger.Priority.Information);
                 this.SetLEDBatteryMonitor(false, log);
                 batSetting = this.GetLEDBatteryMonitor(log);
             }
 
-            log.WriteLog("This routine will run through the colors of the LEDs.  Press any key to stop.  Will stop automatically after a while...");
+            log.WriteLog("This routine will run through the colors of the LEDs.  Press any key to stop.  Will stop automatically after a while...", ILogger.Priority.Medium);
             while (!Console.KeyAvailable)
             {
                 for (int i = 0; i < 255; i = i + 10)
@@ -892,9 +879,7 @@ namespace ThunderSharpLibrary
                     {
                         for (int k = 0; k < 255; k = k + 10)
                         {
-                            //log.WriteLog("Set LED1: 01 " + i.ToString("X2") + " " + j.ToString("X2") + " " + k.ToString("X2") + " 00 00  LED2: 03 " + i.ToString("X2") + " " + j.ToString("X2") + " " + k.ToString("X2") + " 00 00");
                             this.SetLEDs(Convert.ToByte(i), Convert.ToByte(j), Convert.ToByte(k), log);
-                            //log.WriteLog("Get LED1: " + this.BytesToString(this.GetLED1()) + " LED2: " + this.BytesToString(this.GetLED2()));
                             if (Console.KeyAvailable) break;
                         }
                         if (Console.KeyAvailable) break;
@@ -910,7 +895,7 @@ namespace ThunderSharpLibrary
         {
             if (log != null)
             {
-                log.WriteLog("Testing a slow to fast speed on both wheels.  Press any key to stop.");
+                log.WriteLog("Testing a slow to fast speed on both wheels.  Press any key to stop.", ILogger.Priority.Medium);
             }
 
             for(int i = 0; i < 256; i++)
