@@ -1,6 +1,6 @@
 # ThunderSharp
 
-[![Build DLLs](https://github.com/crazycga/ThunderSharp/actions/workflows/dotnet.yml/badge.svg)](https://github.com/crazycga/ThunderSharp/actions/workflows/dotnet.yml)
+[![NuGet Package](https://github.com/crazycga/ThunderSharp/actions/workflows/dotnet.yml/badge.svg)](https://github.com/crazycga/ThunderSharp/actions/workflows/dotnet.yml)
 
 [![CodeQL](https://github.com/crazycga/ThunderSharp/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/crazycga/ThunderSharp/actions/workflows/codeql-analysis.yml)
 
