@@ -17,6 +17,8 @@ namespace ThunderSharpLibrary
 
         ILogger.Priority DefaultLogLevel { get; set; }
 
+        //TODO: introduce log diagnostic output routine
+
         public void WriteLog(string message = "", Priority messagePriority = Priority.Critical);
     }
 }
