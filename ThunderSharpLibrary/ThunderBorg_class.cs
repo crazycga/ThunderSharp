@@ -541,10 +541,7 @@ namespace ThunderSharpLibrary
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
             {
                 bus.WriteBytes(_TBorgAddress, new byte[] { COMMAND_GET_LED1 });
-                if (THROTTLE_CODE)
-                {
-                    System.Threading.Thread.Sleep(200);
-                }
+
                 tempReturn = bus.ReadBytes(_TBorgAddress, I2C_MAX_LEN);
                 if (tempReturn[0] == COMMAND_GET_LED1)
                 {
@@ -584,10 +581,7 @@ namespace ThunderSharpLibrary
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
             {
                 bus.WriteBytes(_TBorgAddress, new byte[] { COMMAND_GET_LED2 });
-                if (THROTTLE_CODE)
-                {
-                    System.Threading.Thread.Sleep(200);
-                }
+
                 tempReturn = bus.ReadBytes(_TBorgAddress, I2C_MAX_LEN);
                 if (tempReturn[0] == COMMAND_GET_LED2)
                 {
@@ -667,10 +661,6 @@ namespace ThunderSharpLibrary
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
             {
                 bus.WriteBytes(_TBorgAddress, new byte[] { COMMAND_SET_LED_BATT_MON, Convert.ToByte(setting) });
-                if (THROTTLE_CODE)
-                {
-                    System.Threading.Thread.Sleep(200);
-                }
             }
         }
 
@@ -689,10 +679,6 @@ namespace ThunderSharpLibrary
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
             {
                 bus.WriteBytes(_TBorgAddress, new byte[] { COMMAND_SET_LED1, red, green, blue });
-                if (THROTTLE_CODE)
-                {
-                    System.Threading.Thread.Sleep(200);
-                }
             }
         }
 
@@ -711,10 +697,6 @@ namespace ThunderSharpLibrary
             using (var bus = I2CBus.Open("/dev/i2c-" + this._bus.ToString()))
             {
                 bus.WriteBytes(_TBorgAddress, new byte[] { COMMAND_SET_LED2, red, green, blue });
-                if (THROTTLE_CODE)
-                {
-                    System.Threading.Thread.Sleep(200);
-                }
             }
         }
 
@@ -738,10 +720,7 @@ namespace ThunderSharpLibrary
                 }
 
                 bus.WriteBytes(_TBorgAddress, new byte[] { COMMAND_SET_LEDS, red, green, blue });
-                if (THROTTLE_CODE)
-                {
-                    System.Threading.Thread.Sleep(200);
-                }
+
                 byte[] response = bus.ReadBytes(_TBorgAddress, I2C_MAX_LEN);
 
                 //if (log != null)
@@ -904,7 +883,7 @@ namespace ThunderSharpLibrary
                 batSetting = this.GetLEDBatteryMonitor(log);
             }
 
-            log.WriteLog("This routine will run through the colors of the LEDs.  Press any key to stop.");
+            log.WriteLog("This routine will run through the colors of the LEDs.  Press any key to stop.  Will stop automatically after a while...");
             while (!Console.KeyAvailable)
             {
                 for (int i = 0; i < 255; i = i + 10)
@@ -913,9 +892,9 @@ namespace ThunderSharpLibrary
                     {
                         for (int k = 0; k < 255; k = k + 10)
                         {
-                            log.WriteLog("Set LED1: 01 " + i.ToString("X2") + " " + j.ToString("X2") + " " + k.ToString("X2") + " 00 00  LED2: 03 " + i.ToString("X2") + " " + j.ToString("X2") + " " + k.ToString("X2") + " 00 00");
+                            //log.WriteLog("Set LED1: 01 " + i.ToString("X2") + " " + j.ToString("X2") + " " + k.ToString("X2") + " 00 00  LED2: 03 " + i.ToString("X2") + " " + j.ToString("X2") + " " + k.ToString("X2") + " 00 00");
                             this.SetLEDs(Convert.ToByte(i), Convert.ToByte(j), Convert.ToByte(k), log);
-                            log.WriteLog("Get LED1: " + this.BytesToString(this.GetLED1()) + " LED2: " + this.BytesToString(this.GetLED2()));
+                            //log.WriteLog("Get LED1: " + this.BytesToString(this.GetLED1()) + " LED2: " + this.BytesToString(this.GetLED2()));
                             if (Console.KeyAvailable) break;
                         }
                         if (Console.KeyAvailable) break;

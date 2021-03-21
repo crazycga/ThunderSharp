@@ -25,7 +25,6 @@ namespace SampleApp
 			myBorg.SetLEDBatteryMonitor(false, myLog);
 
 			initialSettings.SetCurrentEnvironment(myBorg, myLog);
-			
 		}
 
 		private static void TestLogger(Logger_class log)
@@ -67,27 +66,27 @@ namespace SampleApp
 			log.WriteLog("LED1: " + myBorg.BytesToString(myBorg.GetLED1(log)));
 			log.WriteLog("LED2: " + myBorg.BytesToString(myBorg.GetLED2(log)));
 			log.WriteLog();
-			log.WriteLog("Sleeping for two seconds...");
+			log.WriteLog("Sleeping for one second...");
 
-			System.Threading.Thread.Sleep(2000);
+			System.Threading.Thread.Sleep(1000);
 
 			log.WriteLog("Setting LED1 to 0, 0, 0...");
 			myBorg.SetLED1(0, 0, 0, log);
 
 			log.WriteLog("LED1: " + myBorg.BytesToString(myBorg.GetLED1(log)));
 			log.WriteLog();
-			log.WriteLog("Sleeping for two seconds...");
+			log.WriteLog("Sleeping for one second...");
 
-			System.Threading.Thread.Sleep(2000);
+			System.Threading.Thread.Sleep(1000);
 
 			log.WriteLog("Setting LED2 to 0, 0, 0...");
 			myBorg.SetLED2(0, 0, 0, log);
 
 			log.WriteLog("LED2: " + myBorg.BytesToString(myBorg.GetLED2(log)));
 			log.WriteLog();
-			log.WriteLog("Sleeping for two seconds...");
+			log.WriteLog("Sleeping for one second...");
 
-			System.Threading.Thread.Sleep(2000);
+			System.Threading.Thread.Sleep(1000);
 
 			log.WriteLog("Setting all LEDs to 128, 128, 128...");
 			myBorg.SetLED1(128, 128, 128, log);
@@ -95,9 +94,9 @@ namespace SampleApp
 			log.WriteLog("LED1: " + myBorg.BytesToString(myBorg.GetLED1(log)));
 			log.WriteLog("LED2: " + myBorg.BytesToString(myBorg.GetLED2(log)));
 			log.WriteLog();
-			log.WriteLog("Sleeping for two seconds...");
+			log.WriteLog("Sleeping for one second...");
 
-			System.Threading.Thread.Sleep(2000);
+			System.Threading.Thread.Sleep(1000);
 
 			log.WriteLog("Setting back to battery monitoring...");
 			myBorg.SetLEDBatteryMonitor(true, log);
@@ -161,24 +160,11 @@ namespace SampleApp
 			myBorg.SetLEDBatteryMonitor(false, log);
 			myBorg.GetLEDBatteryMonitor(log);
 
-			System.Threading.Thread.Sleep(500);
-
 			myBorg.SetLED1(255, 255, 255, log);
 			myBorg.SetLED2(255, 255, 255, log);
 			System.Threading.Thread.Sleep(1000);
 
 			myBorg.SetLEDs(0, 0, 0, log);
-
-			//for (int i = 0; i < 255; i = i + 10)
-			//         {
-			//	for (int j = 0; j < 255; j = j + 10)
-			//             {
-			//		for (int k = 0; k < 255; k = k + 10)
-			//                 {
-			//			myBorg.SetLEDs(Convert.ToByte(i), Convert.ToByte(j), Convert.ToByte(k), log);
-			//                 }
-			//             }
-			//         }
 
 			log.WriteLog("Battery voltage: " + myBorg.GetBatteryVoltage(log).ToString());
 

@@ -22,7 +22,7 @@ namespace ThunderSharpLibrary
             }
         }
 
-        public void WriteLog(string message = "", ILogger.Priority messagePriority = ILogger.Priority.Critical)
+        public void WriteLog(string message = "", ILogger.Priority messagePriority = ILogger.Priority.Medium)
         {
             // immediate check against priority for speedy return; if the message is of lower priority, straight up reject message
             if (messagePriority < this.DefaultLogLevel) return;
