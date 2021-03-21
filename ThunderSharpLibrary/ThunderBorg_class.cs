@@ -5,7 +5,7 @@ namespace ThunderSharpLibrary
     public class ThunderBorg_class
     {
         // based on original source written by Arron Churchill (I think): https://www.piborg.org/blog/piborg-arron
-        public static readonly bool THROTTLE_CODE               = true;     // added to introduce code throttling; maybe the code is too fast?
+        public static readonly bool THROTTLE_CODE               = false;     // added to introduce code throttling; maybe the code is too fast?
 
         public static readonly ushort I2C_SLAVE                 = 0x0703;
         public static readonly byte PWN_MAX                     = 0xFF;

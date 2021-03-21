@@ -14,6 +14,8 @@ namespace SampleApp
 			ThunderBorgSettings_class initialSettings = new ThunderBorgSettings_class();
 			initialSettings.GetCurrentEnvironment(myBorg, myLog);
 
+			TestLogger(myLog);
+
 			myBorg.SetFailsafe(false, myLog);
             TestBorg(myBorg, myLog);
             TestLEDs(myBorg, myLog);
@@ -25,6 +27,25 @@ namespace SampleApp
 			initialSettings.SetCurrentEnvironment(myBorg, myLog);
 			
 		}
+
+		private static void TestLogger(Logger_class log)
+        {
+			ILogger.Priority existing = log.DefaultLogLevel;
+
+			log.DefaultLogLevel = ILogger.Priority.Medium;
+
+			log.WriteLog("Testing overall log capability.  I'll write five messages, one for each log level, with");
+			log.WriteLog("deescalating priorities.");
+			log.WriteLog();
+			log.WriteLog("------------------------------------------------------------------");
+			log.WriteLog("Critical", ILogger.Priority.Critical);
+			log.WriteLog("High", ILogger.Priority.High);
+			log.WriteLog("Medium", ILogger.Priority.Medium);
+			log.WriteLog("Low", ILogger.Priority.Low);
+			log.WriteLog("Information", ILogger.Priority.Information);
+
+			log.DefaultLogLevel = existing;
+        }
 
 		private static void TestLEDs(ThunderBorg_class myBorg, Logger_class log)
         {
