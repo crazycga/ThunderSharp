@@ -51,6 +51,9 @@ namespace ThunderSharpLibrary
         public static readonly byte COMMAND_VALUE_ON            = 0x01;
         public static readonly byte COMMAND_VALUE_OFF           = 0x00;
 
+        public static readonly decimal SECONDS_PER_METER        = 0.85M;    // calculated by PiBorg team; confirmed by crazycga
+        public static readonly decimal SECONDS_PER_SPIN         = 1.10M;    // calulcated by PiBorg team; unconfirmed, likely to be affected by batteries more than straight motion
+
         public static readonly ushort COMMAND_ANALOG_MAX        = 0x3FF;
 
         private int _bus = 0x01;
@@ -1022,6 +1025,38 @@ namespace ThunderSharpLibrary
 
             this.AllStop();
             if (Console.KeyAvailable) Console.ReadKey(true);
+        }
+
+        public void TestDistance(decimal meters, ILogger log = null)
+        {
+            decimal calculatedSpeed = SECONDS_PER_METER;
+            decimal estimatedTime = meters * SECONDS_PER_METER;
+
+            if (log != null)
+            {
+                log.WriteLog("Moving forward for " + estimatedTime.ToString() + " seconds to go " + meters.ToString() + " meter(s).");
+            }
+
+            this.SetAllMotors(255, log);
+            System.Threading.Thread.Sleep(Convert.ToInt32(estimatedTime * 1000));
+
+            this.AllStop();
+        }
+
+        public void TestSpin(ILogger log = null)
+        {
+            decimal calculatedSpin = SECONDS_PER_SPIN;
+
+            if (log != null)
+            {
+                log.WriteLog("Attemping 360 degree spin.");
+            }
+
+            this.SetMotorA(-255, log);
+            this.SetMotorB(255, log);
+            System.Threading.Thread.Sleep(Convert.ToInt32(calculatedSpin * 1000));
+
+            this.AllStop();
         }
 
         private bool _CheckInit(ILogger log = null, bool throwException = false)
