@@ -944,6 +944,9 @@ namespace ThunderSharpLibrary
         {
             bool batSetting = false;
             batSetting = this.GetLEDBatteryMonitor(log);
+            byte red = 0;
+            byte green = 0;
+            byte blue = 0;
 
             while (batSetting)
             {
@@ -952,25 +955,48 @@ namespace ThunderSharpLibrary
                 batSetting = this.GetLEDBatteryMonitor(log);
             }
 
+            System.Diagnostics.Stopwatch myStop = new System.Diagnostics.Stopwatch();
+            myStop.Start();
+            int timeOut = 0;
             log.WriteLog("This routine will run through the colors of the LEDs.  Press any key to stop.  Will stop automatically after a while...", ILogger.Priority.Medium);
-            while (!Console.KeyAvailable)
+            while ((!Console.KeyAvailable) && (timeOut < 10)) 
             {
-                for (int i = 0; i < 255; i = i + 10)
+                for (int hueCycle = 0; hueCycle <= 765; hueCycle++)
                 {
-                    for (int j = 0; j < 255; j = j + 10)
+                    switch (hueCycle)
                     {
-                        for (int k = 0; k < 255; k = k + 10)
-                        {
-                            this.SetLEDs(Convert.ToByte(i), Convert.ToByte(j), Convert.ToByte(k), log);
-                            if (Console.KeyAvailable) break;
-                        }
-                        if (Console.KeyAvailable) break;
+                        case int hue when (hueCycle <= 255):
+                            red = Convert.ToByte(255 - hue);
+                            green = Convert.ToByte(hue);
+                            blue = 0;
+                            break;
+                        case int hue when ((hueCycle <= 510) && (hueCycle > 255)):
+                            red = 0;
+                            green = Convert.ToByte(510 - hue);
+                            blue = Convert.ToByte(hue - 255);
+                            break;
+                        case int hue when (hueCycle >= 510):
+                            red = Convert.ToByte(hue - 510);
+                            green = 0;
+                            blue = Convert.ToByte(765 - hue);
+                            break;
+                        default:
+                            red = 0;
+                            green = 0;
+                            blue = 0;
+                            break;
                     }
+                    this.SetLEDs(red, green, blue, log);
                     if (Console.KeyAvailable) break;
+                    System.Threading.Thread.Sleep(10);
                 }
                 if (Console.KeyAvailable) break;
+                timeOut++;
             }
-            Console.ReadKey(true);
+
+            if (Console.KeyAvailable) Console.ReadKey(true);
+            myStop.Stop();
+            log.WriteLog("Ran LED tests for total timee of " + myStop.Elapsed.ToString(), ILogger.Priority.Medium);
         }
 
         public void TestSpeeds(ILogger log = null)
