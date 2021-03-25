@@ -101,9 +101,91 @@ namespace ThunderSharpLibrary
             return tempReturn;
         }
 
-        public static int SetNewAddress()
+        public static int SetNewAddress(byte newAddress, byte? oldAddress = null, int? busNumber = 0, ILogger logger = null)
         {
-            throw new NotImplementedException("Not yet implemented");
+            int _oldAddress;
+            bool _foundBoard = false;
+
+            if ((newAddress <= 0x03) || (newAddress > 0x77))
+            {
+                logger.WriteLog("Error: I2C addresses below 3 (0x03) and above 119 (0x77) are reserved.  Please use a different address.");
+                throw new ArgumentOutOfRangeException("newAddress", "New port number must be between 0x03 and 0x77.");
+            }
+
+            if (oldAddress == null)
+            {
+                _oldAddress = ThunderBorg_class.ScanForThunderBorg(Convert.ToInt32(busNumber), logger);
+                if (_oldAddress < 0) 
+                {
+                    throw new Exception("ThunderBorg board not found.");
+                }
+            }
+            else
+            {
+                _oldAddress = Convert.ToInt32(oldAddress);
+            }
+
+            if (logger != null)
+            {
+                logger.WriteLog("Attempting change of ThunderBorg address from " + _oldAddress.ToString("X2") + " to " + newAddress.ToString("X2"), ILogger.Priority.Information);
+            }
+
+            // This code was intended to do another check, but on reflection it doesn't seem to do anything.
+            // 
+            //ThunderBorg_class changeTB = new ThunderBorg_class();
+            //try
+            //{
+            //    byte boardResponse = changeTB.GetBoardID(logger);
+            //    if (boardResponse == _oldAddress)                   // HACK: are you sure?
+            //    {
+            //        if (logger != null)
+            //        {
+            //            logger.WriteLog("ThunderBorg found at " + _oldAddress.ToString("X2"), ILogger.Priority.Information);
+            //        }
+            //        _foundBoard = true;
+            //    }
+            //    else
+            //    {
+            //        if (logger != null)
+            //        {
+            //            logger.WriteLog("Found _something_ at " + _oldAddress.ToString("X2") + " but it doesn't appear to be a ThunderBorg.", ILogger.Priority.Critical);
+            //        }
+            //        _foundBoard = false;
+            //        throw new ArgumentOutOfRangeException("oldAddress", "Found different kind of board at address " + _oldAddress.ToString("X2"));
+            //    }
+            //}
+            //catch(Exception ex)
+            //{
+            //    // do something
+            //}
+
+            //if (!_foundBoard)
+            //{
+            //    if (logger != null)
+            //    {
+            //        logger.WriteLog("No board found.", ILogger.Priority.High);
+            //    }
+            //}
+
+            using (var bus = I2CBus.Open("/dev/i2c-" + busNumber.ToString()))
+            {
+                bus.WriteBytes(_oldAddress, new byte[] { COMMAND_SET_I2C_ADD, newAddress });
+
+                System.Threading.Thread.Sleep(200);         // let the I2C bus catch up
+
+                int tempCheck = ThunderBorg_class.ScanForThunderBorg(Convert.ToInt32(busNumber), logger);
+
+                if (tempCheck == newAddress)
+                {
+                    logger.WriteLog("CHANGED BOARD ADDRESS FROM " + _oldAddress.ToString("X2") + " TO " + newAddress.ToString("X2"), ILogger.Priority.Critical);
+                    logger.WriteLog("This change will be persistent even after a reboot; keep track of it.", ILogger.Priority.Information);
+                }
+                else
+                {
+                    logger.WriteLog("**FAILED** to change ThunderBorg address.  Current address: " + tempCheck.ToString("X2"));
+                }
+                return tempCheck;
+            }
         }
 
         public ThunderBorg_class(ILogger log = null, bool tryOtherBus = false)

@@ -15,17 +15,27 @@ namespace SampleApp
 			initialSettings.GetCurrentEnvironment(myBorg, myLog);
 
 			TestLogger(myLog);
+			myLog.DefaultLogLevel = ILogger.Priority.Information;
+
+			int intCurrentAddress = ThunderBorg_class.ScanForThunderBorg(log: myLog);
+			byte currentAddress = Convert.ToByte(intCurrentAddress);
+			ThunderBorg_class.SetNewAddress(33, currentAddress, 1, myLog);
+
+			int newIntCurrentAddress = ThunderBorg_class.ScanForThunderBorg(log: myLog);
+			byte newCurrentAddress = Convert.ToByte(newIntCurrentAddress);
+			ThunderBorg_class.SetNewAddress(currentAddress, newCurrentAddress, 1, myLog);
+
 			myLog.DefaultLogLevel = ILogger.Priority.Medium;
 
-			myBorg.SetFailsafe(false, myLog);
+            myBorg.SetFailsafe(false, myLog);
             TestBorg(myBorg, myLog);
             TestLEDs(myBorg, myLog);
             myBorg.SetLEDBatteryMonitor(true, myLog);
             myBorg.WaveLEDs(myLog);
-			myBorg.TestSpeeds(myLog);
-			myBorg.SetLEDBatteryMonitor(false, myLog);
+            myBorg.TestSpeeds(myLog);
+            myBorg.SetLEDBatteryMonitor(false, myLog);
 
-			initialSettings.SetCurrentEnvironment(myBorg, myLog);
+            initialSettings.SetCurrentEnvironment(myBorg, myLog);
 		}
 
 		private static void TestLogger(Logger_class log)
