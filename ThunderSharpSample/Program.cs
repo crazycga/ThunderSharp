@@ -28,12 +28,15 @@ namespace SampleApp
 			myLog.DefaultLogLevel = ILogger.Priority.Medium;
 
             myBorg.SetFailsafe(false, myLog);
-            TestBorg(myBorg, myLog);
-            TestLEDs(myBorg, myLog);
-            myBorg.SetLEDBatteryMonitor(true, myLog);
-            myBorg.WaveLEDs(myLog);
-            myBorg.TestSpeeds(myLog);
-            myBorg.SetLEDBatteryMonitor(false, myLog);
+			//TestBorg(myBorg, myLog);
+			//TestLEDs(myBorg, myLog);
+			//myBorg.SetLEDBatteryMonitor(true, myLog);
+			//myBorg.WaveLEDs(myLog);
+			//myBorg.TestSpeeds(myLog);
+			//myBorg.SetLEDBatteryMonitor(false, myLog);
+			myLog.WriteLog("Place Borg in location with 1 meter clearance in front, then press any key.");
+			Console.ReadKey(true);
+			myBorg.TestDistance(0.5M, myLog);
 
             initialSettings.SetCurrentEnvironment(myBorg, myLog);
 		}
